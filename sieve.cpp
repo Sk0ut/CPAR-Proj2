@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <iostream>
+#include "mpi.h"
 
 using namespace std;
 
@@ -17,12 +18,9 @@ void sequentialSieve(uint32_t n)
   for (uint32_t i = 0; i < max_seed_index ; ++i) {
     if (!marked[i]) {
       uint32_t value = 2 * i + 3;
-			cout << "value: " << value << "\t";
       for (uint32_t j = 3 * value; j <= n; j += 2*value) {
           marked[(j-3) / 2] = 1;
-					cout << "element: " << (j-3) / 2 << "\t";
       }
-			cout << endl;
     }
   }
 
