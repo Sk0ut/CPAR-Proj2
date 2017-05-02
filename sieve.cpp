@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <iostream>
-#include "mpi.h"
+//	#include "mpi.h"
 
 using namespace std;
 
@@ -66,21 +66,26 @@ void sequentialSieveMemorySaving(uint32_t n)
 		}	
   }
 
+	int totalPrimes = 1;
+
   printf("Prime numbers till %d:\n", n);
 	printf(" %d", 2);
   for (uint32_t i = 0; i < size; ++i) {
 		uint32_t bit_max_index = 32;
 		if (i + 1 >= size) {
-			bit_max_index = totalBits - 32 * i;
+			bit_max_index = totalBits - 32 * i - 1;
 		}
-		for(uint32_t k = 0; k < bit_max_index - 1; k++) {
+		for(uint32_t k = 0; k < bit_max_index; k++) {
 			uint32_t bit = ((marked[i] & ( 1 << k )) >> k);
 			if (!bit) {
 		    printf(" %d", 2*(k + i*32) + 3);
+				totalPrimes++;
 		  }			
 		}   
   }
   printf("\n");
+
+	cout << "Total Primes: " << totalPrimes << endl;
 }
 
 
