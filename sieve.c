@@ -5,8 +5,6 @@
 #include <stdlib.h>
 //	#include "mpi.h"
 
-using namespace std;
-
 void sequentialSieve(uint64_t n)
 {       
   uint32_t size = n / 2 + n % 2;
@@ -23,11 +21,11 @@ void sequentialSieve(uint64_t n)
     }
   }
 
-  printf("Prime numbers till %d:", n);
+  printf("Prime numbers till %ld:", n);
 	printf(" %d", 2);
   for (uint32_t i = 0; i < size - 1; ++i) {
     if (!marked[i]) {
-      printf(" %d", 2*i + 3);
+      printf(" %ld", 2*i + 3);
     }
   }
   printf("\n");
@@ -67,7 +65,7 @@ void sequentialSieveMemorySaving(uint64_t n)
 
 	int totalPrimes = 1;
 
-  printf("Prime numbers till %d:\n", n);
+  printf("Prime numbers till %ld:\n", n);
 	printf(" %d", 2);
   for (uint32_t i = 0; i < size; ++i) {
 		uint32_t bit_max_index = 32;
