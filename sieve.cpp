@@ -92,6 +92,39 @@ void sequentialSieve(uint64_t n)
   printf("\n");*/
 }
 
+void sequentialSieve2(uint64_t n)
+{
+	double Time1, Time2;
+
+	Time1 = omp_get_wtime();
+
+	uint32_t size = n;
+	uint32_t max_seed_index = sqrt(n);
+	vector<bool> marked(size);
+
+	for (uint32_t i = 0; i < max_seed_index; ++i) {
+		if (!marked[i]) {
+			uint32_t value = i + 2;
+			for (uint64_t j = value * value; j <= n; j += value) {
+				marked[(j - 2)] = 1;
+			}
+		}
+	}
+
+	Time2 = omp_get_wtime();
+	double processingTime = Time2 - Time1;
+
+	printProcessingTime(processingTime);
+
+	printf("Prime numbers till %ld:", n);
+	for (uint32_t i = 0; i < size - 1; ++i) {
+		if (!marked[i]) {
+			printf(" %u", i + 2);
+		}
+	}
+	printf("\n");
+}
+
 
 int main (int argc, char *argv[])
 {
@@ -108,7 +141,10 @@ int main (int argc, char *argv[])
 		}
 		else
 		{
-			sequentialSieveParallel(n);
+			printf("optimized: ");
+			sequentialSieve(n);
+			printf("normal: ");
+			sequentialSieve2(n);
 		}
 	}
 	return 0;
