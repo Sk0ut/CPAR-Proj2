@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 
 #include "sieve.h"
 
@@ -13,7 +14,7 @@ int main(int argc, char *argv[])
 	else
 	{		
 		uint32_t n;
-		sscanf_s(argv[1], "%u", &n);
+		sscanf(argv[1], "%u", &n);
 		if (n < 2)
 		{
 			std::cout << "<n> must be grater or equal than 2.\n";

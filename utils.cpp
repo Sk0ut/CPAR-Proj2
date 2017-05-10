@@ -1,5 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <limits.h>
+#include <stdint.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -7,7 +10,7 @@ void printProcessingTime(double timeMs)
 {
 	char st[100];
 
-	sprintf_s(st, "Time: %3.3f seconds\n", timeMs);
+	sprintf(st, "Time: %3.3f seconds\n", timeMs);
 	cout << st;
 }
 

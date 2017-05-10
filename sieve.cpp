@@ -1,5 +1,8 @@
 #include <omp.h>
 #include <vector>
+#include <limits.h>
+#include <stdint.h>
+#include <math.h>
 
 #include "utils.h"
 //	#include "mpi.h"
