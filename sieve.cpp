@@ -9,9 +9,9 @@
 
 void sieveOpenMP(uint64_t n, int nThreads)
 {
-	double Time1, Time2;
+	double time;
 
-	Time1 = omp_get_wtime();
+	time = -omp_get_wtime();
 
 	uint64_t size = n / 2 + n % 2;
 	uint32_t max_seed_index = (uint32_t)sqrt(n) / 2;
@@ -29,17 +29,17 @@ void sieveOpenMP(uint64_t n, int nThreads)
 		}
 	}	
 
-	Time2 = omp_get_wtime();
+	time += omp_get_wtime();
 
-	printProcessingTime(Time2 - Time1);
+	printProcessingTime(time);
 	printPrimesOptimized(marked, size, 5);
 }
 
 void seqSieveOptimized(uint64_t n)
 {
-	double Time1, Time2;
+	double time;
 
-	Time1 = omp_get_wtime();
+	time = -omp_get_wtime();
 	
 	uint64_t size = n / 2 + n % 2;	
 	uint32_t max_seed_index = (uint32_t)sqrt(n) / 2;
@@ -56,17 +56,17 @@ void seqSieveOptimized(uint64_t n)
 		}
 	}
 
-	Time2 = omp_get_wtime();
+	time += omp_get_wtime();
 
-	printProcessingTime(Time2 - Time1);
+	printProcessingTime(time);
 	printPrimesOptimized(marked, size, 5);
 }
 
 void seqSieve(uint64_t n)
 {
-	double Time1, Time2;
+	double time;
 
-	Time1 = omp_get_wtime();
+	time = -omp_get_wtime();
 
 	uint64_t size = n;
 	uint32_t max_seed_index = (uint32_t)sqrt(n);
@@ -83,8 +83,8 @@ void seqSieve(uint64_t n)
 		}
 	}
 
-	Time2 = omp_get_wtime();
+	time += omp_get_wtime();
 
-	printProcessingTime(Time2 - Time1);
+	printProcessingTime(time);
 	printPrimesNormal(marked, size, 5);
 }
