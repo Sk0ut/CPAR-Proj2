@@ -42,7 +42,7 @@ void printPrimesNormal(vector<bool> &marked, uint32_t size, int printNum = INT_M
 
 	int count = 0;
 
-	for (uint32_t i = size - 2; i-- > 0;) {
+	for (uint32_t i = size - 1; i-- > 0;) {
 		if (!marked[i]) {
 			if (++count <= printNum)
 			{

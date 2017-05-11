@@ -5,15 +5,15 @@
 #include <math.h>
 
 #include "utils.h"
-//	#include "mpi.h"
+#include "mpi.h"
 
-void sieveOpenMP(uint32_t n, int nThreads)
+void sieveOpenMP(uint64_t n, int nThreads)
 {
 	double Time1, Time2;
 
 	Time1 = omp_get_wtime();
 
-	uint32_t size = n / 2 + n % 2;
+	uint64_t size = n / 2 + n % 2;
 	uint32_t max_seed_index = (uint32_t)sqrt(n) / 2;
 	std::vector<bool> marked(size);
 		
@@ -35,14 +35,13 @@ void sieveOpenMP(uint32_t n, int nThreads)
 	printPrimesOptimized(marked, size, 5);
 }
 
-void seqSieveOptimized(uint32_t n)
+void seqSieveOptimized(uint64_t n)
 {
 	double Time1, Time2;
 
 	Time1 = omp_get_wtime();
 	
-	uint32_t size = n / 2 + n % 2;
-	
+	uint64_t size = n / 2 + n % 2;	
 	uint32_t max_seed_index = (uint32_t)sqrt(n) / 2;
 	std::vector<bool> marked(size);
 
@@ -63,14 +62,14 @@ void seqSieveOptimized(uint32_t n)
 	printPrimesOptimized(marked, size, 5);
 }
 
-void seqSieve(uint32_t n)
+void seqSieve(uint64_t n)
 {
 	double Time1, Time2;
 
 	Time1 = omp_get_wtime();
 
-	uint32_t size = n;
-	uint32_t max_seed_index = (int)sqrt(n);
+	uint64_t size = n;
+	uint32_t max_seed_index = (uint32_t)sqrt(n);
 	std::vector<bool> marked(size);
 
 	for (uint32_t i = 0; i < max_seed_index; ++i) {
