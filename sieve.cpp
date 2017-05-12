@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <math.h>
 
+#include <iostream>
+
 #include "utils.h"
 #include "mpi.h"
 
@@ -20,11 +22,11 @@ void sieveOpenMP(uint64_t n, int nThreads)
 	for (uint32_t i = 0; i < max_seed_index; ++i) {
 		if (!marked[i]) 
 		{
-			uint32_t value = 2 * i + 3;
+			uint64_t value = 2 * i + 3;
 			#pragma omp parallel for num_threads(nThreads)
 			for (uint64_t j = value * value; j <= n; j += 2 * value) 
 			{
-				marked[((unsigned int)j - 3) / 2] = true;
+				marked[((unsigned)j - 3) / 2] = true;
 			}
 		}
 	}	
@@ -38,7 +40,6 @@ void sieveOpenMP(uint64_t n, int nThreads)
 void seqSieveOptimized(uint64_t n)
 {
 	double time;
-
 	time = -omp_get_wtime();
 	
 	uint64_t size = n / 2 + n % 2;	
@@ -48,10 +49,10 @@ void seqSieveOptimized(uint64_t n)
 	for (uint32_t i = 0; i < max_seed_index; ++i) {
 		if (!marked[i]) 
 		{
-			uint32_t value = 2 * i + 3;
+			uint64_t value = 2 * i + 3;
 			for (uint64_t j = value * value; j <= n; j += 2 * value) 
 			{
-				marked[((unsigned int)j - 3) / 2] = 1;
+				marked[((unsigned)j - 3) / 2] = 1;
 			}
 		}
 	}
@@ -72,13 +73,12 @@ void seqSieve(uint64_t n)
 	uint32_t max_seed_index = (uint32_t)sqrt(n);
 	std::vector<bool> marked(size);
 
-	for (uint32_t i = 0; i < max_seed_index; ++i) {
+	for (uint32_t i = 2; i < max_seed_index; ++i) {
 		if (!marked[i]) 
 		{
-			uint32_t value = i + 2;
-			for (uint64_t j = value * value; j <= n; j += value) 
+			for (uint64_t j = i * i; j <= n; j += i) 
 			{
-				marked[((unsigned int)j - 2)] = 1;
+				marked[(unsigned)j] = 1;
 			}
 		}
 	}

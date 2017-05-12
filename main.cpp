@@ -48,7 +48,20 @@ int askForThreadNumber() {
     }
 
     return i;
+}
 
+int askForProcessesNumber() {
+    int i;
+
+    cout << "Insert the number of processes: ";
+    cin >> i;
+    if (i < 0) 
+    {
+        cout << "Chosen value is outside the range.\n";
+        return -1;
+    }
+
+    return i;
 }
 
 void seqMenu(seqSieveFunc sieveCall, string type)
@@ -142,12 +155,139 @@ void openMPMenu()
 
 void openMPIMenu()
 {     
-    int res;
-    res = system("mpirun -np 4 mpisieve 2");
+    int opt, nProcesses, res;  
+    string cmd;
+    uint64_t n;
+    
+    do {
+        cout << "\nParallel Mode - OpenMPI:\n";
 
-    if (res != 0) {
-        cout << "[warn] MPI program returned " << res << ".\n";
-    }
+        cout << "\t1. Perfomance Test Mode\n";
+        cout << "\t2. Manual Test\n";
+
+        cout << "\n\t0. Cancel\n";
+    
+        cout << "\nChose an option: ";
+        
+        cin >> opt;
+
+        switch(opt) {
+            case 0: 
+                return;
+            case 1:                 
+                nProcesses = askForProcessesNumber();
+                if (nProcesses == -1) {
+                    break;
+                }
+                for (int i = MIN_BOUND; i <= MAX_BOUND; i++)
+                {                    
+                    // TODO: Atualizar hostfile.
+                    //  cmd = "mpirun -hostfile hostfile -np " + to_string(nProcesses) + " mpisieve " + to_string(i);
+                    cmd = "mpirun -np " + to_string(nProcesses) + " mpisieve " + to_string(pow(2, i));
+                    res = system(cmd.c_str());
+
+                    if (res != 0) {
+                        cout << "[warn] MPI program returned " << res << ".\n";
+                    }
+                }
+                break;
+            case 2: 
+                n = askForBoundLimit();
+                if (n == -1) {
+                    break;
+                }
+                nProcesses = askForProcessesNumber();
+                if (nProcesses == -1) {
+                    break;
+                }
+                // TODO: Atualizar hostfile.
+                //  cmd = "mpirun -hostfile hostfile -np " + to_string(nProcesses) + " mpisieve " + to_string(n);
+                cmd = "mpirun -np " + to_string(nProcesses) + " mpisieve " + to_string(n);
+                res = system(cmd.c_str());
+                if (res != 0) 
+                {
+                    cout << "[warn] MPI program returned " << res << ".\n";
+                }
+                break;
+            default:
+                cout << "Invalide Option!\n";
+                break;
+        
+        }    
+    } while(true);
+}
+
+void openMPI_OMPMenu()
+{     
+    int opt, nProcesses, nThreads, res;  
+    string cmd;
+    uint64_t n;
+    
+    do {
+        cout << "\nParallel Mode - OpenMPI + OpenMP:\n";
+
+        cout << "\t1. Perfomance Test Mode\n";
+        cout << "\t2. Manual Test\n";
+
+        cout << "\n\t0. Cancel\n";
+    
+        cout << "\nChose an option: ";
+        
+        cin >> opt;
+
+        switch(opt) {
+            case 0: 
+                return;
+            case 1:                 
+                nProcesses = askForProcessesNumber();
+                if (nProcesses == -1) {
+                    break;
+                }
+                nThreads = askForThreadNumber();
+                if (nThreads == -1) {
+                    break;
+                }                
+                res = system(cmd.c_str());
+                for (int i = MIN_BOUND; i <= MAX_BOUND; i++)
+                {                    
+                    // TODO: Atualizar hostfile.
+                    //  cmd = "mpirun -hostfile hostfile -np " + to_string(nProcesses) + " mpisieve " + to_string(n) + " " + to_string(nThreads);
+                    cmd = "mpirun -np " + to_string(nProcesses) + " mpimpsieve " + to_string(pow(2, i)) + " " + to_string(nThreads);
+                    res = system(cmd.c_str());
+                    if (res != 0) 
+                    {
+                        cout << "[warn] MPI program returned " << res << ".\n";
+                    }
+                }
+                break;
+            case 2: 
+                n = askForBoundLimit();
+                if (n == -1) {
+                    break;
+                }
+                nProcesses = askForProcessesNumber();
+                if (nProcesses == -1) {
+                    break;
+                }
+                nThreads = askForThreadNumber();
+                if (nThreads == -1) {
+                    break;
+                }
+                // TODO: Atualizar hostfile.
+                //  cmd = "mpirun -hostfile hostfile -np " + to_string(nProcesses) + " mpisieve " + to_string(n) + " " + to_string(nThreads);
+                cmd = "mpirun -np " + to_string(nProcesses) + " mpimpsieve " + to_string(n) + " " + to_string(nThreads);
+                res = system(cmd.c_str());
+
+                if (res != 0) {
+                    cout << "[warn] MPI program returned " << res << ".\n";
+                }
+                break;
+            default:
+                cout << "Invalide Option!\n";
+                break;
+        
+        }    
+    } while(true);
 }
 
 void mainMenu() 
@@ -160,9 +300,9 @@ void mainMenu()
             cout << "\t2. Optimized\n";
 
         cout << "\nParallel Mode:\n";
-            cout << "\t3. OpenMP \n";
-            cout << "\t4. OpenMPI \n";
-            cout << "\t5. OpenMP + OpenMPI \n";
+            cout << "\t3. OpenMP\n";
+            cout << "\t4. OpenMPI\n";
+            cout << "\t5. OpenMPI + OpenMP\n";
 
         cout << "\t0. Exit \n";
 
@@ -186,6 +326,7 @@ void mainMenu()
                 openMPIMenu();
                 break;
             case 5:
+                openMPI_OMPMenu();
                 break;
             default:
                 cout << "Invalide Option!\n";

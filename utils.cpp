@@ -30,7 +30,7 @@ void printPrimesOptimized(vector<bool> &marked, uint32_t size, int printNum = IN
 		}
 	}
 	if (++count <= printNum) {
-		cout << " 2";
+		cout << "2";
 	}
 
 	cout << "\nTotal Primes: " << count << endl;
@@ -42,11 +42,12 @@ void printPrimesNormal(vector<bool> &marked, uint32_t size, int printNum = INT_M
 
 	int count = 0;
 
-	for (uint32_t i = size - 1; i-- > 0;) {
-		if (!marked[i]) {
+	for (uint32_t i = size - 1; i-- > 2;) {
+		if (!marked[i]) 
+		{
 			if (++count <= printNum)
 			{
-				cout << i + 2 << " ";
+				cout << i << " ";
 			}
 		}
 	}
