@@ -17,11 +17,14 @@ void openMPISieve(uint64_t n) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     uint64_t blockBaseValue = rank * n / size + 1;
-    uint32_t blockSize = n / size;    
-	uint32_t max_seed_index = (uint32_t)sqrt(n) / 2;
+    uint64_t blockSize = n / size;
+   /* if (rank == size - 1) {
+	blockSize += n % size;
+    }*/
+    uint32_t max_seed_index = (uint32_t)sqrt(n) / 2;
 
     vector<bool> marked(blockSize / 2);
-
+    
     MPI_Barrier(MPI_COMM_WORLD);
     
     if(rank == 0) {
@@ -35,27 +38,20 @@ void openMPISieve(uint64_t n) {
 
         if (startValue < blockBaseValue) 
         {
-            if (blockBaseValue % val != 0) 
-            {
-                startValue = val + (blockBaseValue + val - 1) / (2*val) * (2*val);
-            }
-            else 
-            {
-                startValue = blockBaseValue;
-            }
-		}
+ 	   startValue = val + (blockBaseValue + val - 1) / (2*val) * (2*val);
+	}
         for (uint64_t j = startValue; j < blockBaseValue + blockSize; j += 2*val) 
-		{
-			marked[((unsigned int)j - blockBaseValue) / 2] = true;
-		}
+	{
+		marked[((unsigned int)j - blockBaseValue) / 2] = true;
+	}
 
         if (rank == 0) {
-			do {
-				i++;
-			} while (marked[i] && i < max_seed_index);
-		}
+		do {
+			i++;
+		} while (marked[i] && i < max_seed_index);
+	}
 
-		MPI_Bcast(&i, 1, MPI_LONG, 0, MPI_COMM_WORLD);
+	MPI_Bcast(&i, 1, MPI_LONG, 0, MPI_COMM_WORLD);
     }
 
     if(rank == 0) 
@@ -100,7 +96,6 @@ int main(int argc, char** argv) {
 
 	uint64_t n;
 	sscanf(argv[1], "%lu", &n);
-
 	openMPISieve(n);
 
 	MPI_Finalize();

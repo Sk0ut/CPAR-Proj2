@@ -18,8 +18,8 @@ void openMPISieve(uint64_t n, unsigned nThreads) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     uint64_t blockBaseValue = rank * n / size + 1;
-    uint32_t blockSize = n / size;    
-	uint32_t max_seed_index = (uint32_t)sqrt(n) / 2;
+    uint64_t blockSize = n / size;    
+    uint32_t max_seed_index = (uint32_t)sqrt(n) / 2;
 
     vector<bool> marked(blockSize / 2);
 

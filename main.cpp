@@ -181,9 +181,7 @@ void openMPIMenu()
                 }
                 for (int i = MIN_BOUND; i <= MAX_BOUND; i++)
                 {                    
-                    // TODO: Atualizar hostfile.
-                    //  cmd = "mpirun -hostfile hostfile -np " + to_string(nProcesses) + " mpisieve " + to_string(i);
-                    cmd = "mpirun -np " + to_string(nProcesses) + " mpisieve " + to_string(pow(2, i));
+		  cmd = "mpirun -hostfile hostfile -np " + to_string(nProcesses) + " mpisieve " + to_string(pow(2,i));
                     res = system(cmd.c_str());
 
                     if (res != 0) {
@@ -200,9 +198,7 @@ void openMPIMenu()
                 if (nProcesses == -1) {
                     break;
                 }
-                // TODO: Atualizar hostfile.
-                //  cmd = "mpirun -hostfile hostfile -np " + to_string(nProcesses) + " mpisieve " + to_string(n);
-                cmd = "mpirun -np " + to_string(nProcesses) + " mpisieve " + to_string(n);
+		cmd = "mpirun -hostfile hostfile -np " + to_string(nProcesses) + " mpisieve " + to_string(n);
                 res = system(cmd.c_str());
                 if (res != 0) 
                 {
@@ -250,9 +246,7 @@ void openMPI_OMPMenu()
                 res = system(cmd.c_str());
                 for (int i = MIN_BOUND; i <= MAX_BOUND; i++)
                 {                    
-                    // TODO: Atualizar hostfile.
-                    //  cmd = "mpirun -hostfile hostfile -np " + to_string(nProcesses) + " mpisieve " + to_string(n) + " " + to_string(nThreads);
-                    cmd = "mpirun -np " + to_string(nProcesses) + " mpimpsieve " + to_string(pow(2, i)) + " " + to_string(nThreads);
+		  cmd = "mpirun -hostfile hostfile -np " + to_string(nProcesses) + " mpisieve " + to_string((uint64_t)pow(2,i)) + " " + to_string(nThreads);
                     res = system(cmd.c_str());
                     if (res != 0) 
                     {
@@ -273,9 +267,8 @@ void openMPI_OMPMenu()
                 if (nThreads == -1) {
                     break;
                 }
-                // TODO: Atualizar hostfile.
-                //  cmd = "mpirun -hostfile hostfile -np " + to_string(nProcesses) + " mpisieve " + to_string(n) + " " + to_string(nThreads);
-                cmd = "mpirun -np " + to_string(nProcesses) + " mpimpsieve " + to_string(n) + " " + to_string(nThreads);
+                
+                cmd = "mpirun -hostfile hostfile -np " + to_string(nProcesses) + " mpisieve " + to_string(n) + " " + to_string(nThreads);
                 res = system(cmd.c_str());
 
                 if (res != 0) {

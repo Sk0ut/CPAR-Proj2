@@ -7,7 +7,6 @@
 #include <iostream>
 
 #include "utils.h"
-#include "mpi.h"
 
 void sieveOpenMP(uint64_t n, int nThreads)
 {
